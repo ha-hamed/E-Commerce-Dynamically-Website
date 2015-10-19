@@ -1,0 +1,28 @@
+!SESSION 2012-04-04 10:18:38.225 -----------------------------------------------
+eclipse.buildId=I20110613-1736
+java.version=1.6.0_29
+java.vendor=Apple Inc.
+BootLoader constants: OS=macosx, ARCH=x86_64, WS=cocoa, NL=en
+Framework arguments:  -product org.eclipse.epp.package.jee.product -product org.eclipse.epp.package.jee.product -keyring /Users/hamedabedini/.eclipse_keyring -showlocation
+Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -product org.eclipse.epp.package.jee.product -data /Users/hamedabedini/Dropbox/project/DATABASE_PROJECT_FINAL_APRIL3 -product org.eclipse.epp.package.jee.product -keyring /Users/hamedabedini/.eclipse_keyring -showlocation
+
+!ENTRY org.eclipse.ui.workbench 2 0 2012-04-04 10:20:58.490
+!MESSAGE A handler conflict occurred.  This may disable some commands.
+!SUBENTRY 1 org.eclipse.ui.workbench 2 0 2012-04-04 10:20:58.490
+!MESSAGE Conflict for 'org.eclipse.wst.jsdt.ui.edit.text.java.open.editor':
+HandlerActivation(commandId=org.eclipse.wst.jsdt.ui.edit.text.java.open.editor,
+	handler=ActionHandler(org.eclipse.wst.jsdt.ui.actions.OpenAction@2342f67d),
+	expression=AndExpression(AndExpression(org.eclipse.ui.SubActionBars$1@e208506,ActivePartExpression(org.eclipse.ui.navigator.resources.ProjectExplorer@60a2f435)),WorkbenchWindowExpression(org.eclipse.ui.internal.WorkbenchWindow@76086988)),sourcePriority=1064961)
+HandlerActivation(commandId=org.eclipse.wst.jsdt.ui.edit.text.java.open.editor,
+	handler=ActionHandler(org.eclipse.wst.jsdt.ui.actions.OpenAction@2342f67d),
+	expression=AndExpression(AndExpression(org.eclipse.ui.SubActionBars$1@e208506,ActivePartExpression(org.eclipse.ui.navigator.resources.ProjectExplorer@60a2f435)),WorkbenchWindowExpression(org.eclipse.ui.internal.WorkbenchWindow@76086988)),sourcePriority=1064961)
+!SESSION 2012-04-04 14:44:04.899 -----------------------------------------------
+eclipse.buildId=I20110613-1736
+java.version=1.6.0_29
+java.vendor=Apple Inc.
+BootLoader constants: OS=macosx, ARCH=x86_64, WS=cocoa, NL=en_US
+Framework arguments:  -product org.eclipse.epp.package.jee.product -keyring /Users/hamedabedini/.eclipse_keyring -showlocation
+Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -product org.eclipse.epp.package.jee.product -keyring /Users/hamedabedini/.eclipse_keyring -showlocation
+
+!ENTRY org.eclipse.core.net 1 0 2012-04-04 14:44:18.136
+!MESSAGE System property http.nonProxyHosts has been set to local|*.local|169.254/16|*.169.254/16 by an external source. This value will be overwritten using the values from the preferences

@@ -1,0 +1,215 @@
+/* 
+    Document   : style.css
+    Created on : Mar 24, 2012, 10:50:35 AM
+    Author     : ali
+    Description:
+    Purpose of the stylesheet follows.
+*/
+body {
+    background-color: whitesmoke;
+
+}
+
+/* Container Settings*/
+div.container {
+    display: block;
+    width: 80%;
+    height: 90%;
+    min-height: 600px;
+    min-width: 900px;
+    position: absolute;
+    top: 5%;
+    left: 10%;
+}
+
+/* Header Settings*/
+div.header {
+    background-image: url("header_background.jpg");
+    background-repeat: repeat-x;
+    width: 100%;
+    height: 20%;
+    border-top-right-radius: 1em;
+    border-top-left-radius: 1em;
+    text-align: center;
+    color: #8B0000;
+}
+
+/* Title Menu Settings*/
+div.title_menu {
+    background-image: url("title_background.jpg");
+    height: 4%;
+}
+div.title_menu ul {
+    list-style-type:none;
+    margin:0;
+    padding:0;
+    overflow:hidden;
+}
+div.title_menu li {
+    background-image: url("title_background.jpg");
+    float:left;
+}
+div.title_menu a:link,div.title_menu a:visited {
+    display:block;
+    width:120px;
+    font-weight:bold;
+    color:#FFFFFF;
+    text-align:center;
+    padding:4px;
+    text-decoration:none;
+    text-transform:uppercase;
+}
+div.title_menu a:hover,div.title_menu a:active {
+    background-color:#808080;
+}
+/* End of Title Menu Settings*/
+
+/* Menu Settings*/
+div.menu {
+    background-color: #F0F0F0;
+    background-image: url("menu_background.jpg");
+    background-repeat: repeat-y;
+    height: 73%;
+    width: 20%;
+    float:left;
+}
+div.menu ul {
+    list-style-type:none;
+    color: #CD853F;
+    margin:1;
+    padding:1;
+    overflow:hidden;
+}
+div.menu a:link,div.menu a:visited {
+    display: block;
+    width: 100%;
+    font-size: medium;
+    text-align: left;
+    padding: 4px;
+    text-decoration: none;
+    text-transform: capitalize;
+}
+div.menu a:hover,div.menu a:active {
+    background-color:#FFFFFF;
+}
+/* End of Menu Settings*/
+
+/* Content Settings*/
+div.content {
+    background-color: #F0F0F0;
+    height: 73%;
+    width: 80%;
+    overflow: auto;
+    float: left;
+}
+
+div.about {
+    background-color: #EEEEEE;
+    height: 73%;
+    width: 100%;
+    text-align: center;
+}
+
+/* Footer Settings*/
+div.footer {
+    /*background-color: #FFA500;*/
+    background-image: url("header_background.jpg");
+    background-repeat: repeat-x;
+    height: 3%;
+    border-bottom-left-radius: 1em;
+    border-bottom-right-radius: 1em;
+    clear: both;
+    text-align:center;
+}
+
+div.login_box {
+    display: block;
+    width: 40%;
+    height: 30%;
+    position: absolute;
+    top: 30%;
+    left: 25%;
+    background-color: red;
+    margin:30px 50px;
+    border:2px solid;
+    border-radius:1em;
+    opacity:0.9;
+    filter:alpha(opacity=60); /* For IE8 and earlier */
+}
+
+div.login_box table {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+div.login_box input {
+    float: right;
+}
+
+
+
+div.register_box {
+    display: block;
+    width: 30%;
+    height: 25%;
+    position: absolute;
+    top: 30%;
+    left: 30%;
+    background-color: red;
+    margin:30px 50px;
+    border:1px solid black;
+    border:2px solid;
+    border-radius:1em;
+    opacity:0.9;
+    filter:alpha(opacity=60);
+}
+
+div.register_box table {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+div.register_box input {
+    float: right;
+}
+
+div.department {
+    background-color: #F0F0F0;
+    height: 10%;
+    width: 100%;
+    float: left;
+}
+
+div.category {
+    background-color: #F0F0F0;
+    height: 10%;
+    width: 100%;
+    float: left;
+}
+div.result {
+    background-color: #F0F0F0;
+    height: 53%;
+    width: 100%;
+    overflow: auto;
+    float: left;
+}
+
+table.customer_result {
+    background-color: lightblue;
+}
+th {
+	background-color: #98bf21;
+}
+tr.even {
+	text-align: center;
+    background-color: springgreen;
+}
+
+tr.odd {
+	text-align: center;
+    background-color: azure;
+}

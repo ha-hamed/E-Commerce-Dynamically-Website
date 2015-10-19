@@ -1,0 +1,200 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1138\cocoasubrtf320
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+\margl1440\margr1440\vieww28520\viewh16520\viewkind0
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\tx7280\tx7840\tx8400\tx8960\tx9520\tx10080\tx10640\tx11200\tx11760\tx12320\tx12880\tx13440\tx14000\tx14560\tx15120\tx15680\tx16240\tx16800\tx17360\tx17920\tx18480\tx19040\tx19600\tx20160\tx20720\tx21280\tx21840\tx22400\tx22960\tx23520\tx24080\tx24640\tx25200\tx25760\tx26320\tx26880\tx27440\tx28000\tx28560\tx29120\tx29680\tx30240\tx30800\tx31360\tx31920\tx32480\tx33040\tx33600\tx34160\tx34720\tx35280\tx35840\tx36400\tx36960\tx37520\tx38080\tx38640\tx39200\tx39760\tx40320\tx40880\tx41440\tx42000\tx42560\tx43120\tx43680\tx44240\tx44800\tx45360\tx45920\tx46480\tx47040\tx47600\tx48160\tx48720\tx49280\tx49840\tx50400\tx50960\tx51520\tx52080\tx52640\tx53200\tx53760\tx54320\tx54880\tx55440\tx56000\pardirnatural
+
+\f0\fs24 \cf0 \CocoaLigature0 CREATE DOMAIN email_address AS VARCHAR(84)\
+CHECK\
+(\
+    VALUE ~ E'^[A-Za-z0-9](([_\\.\\-]?[a-zA-Z0-9]+)*)@([A-Za-z0-9]+)(([\\.\\-]?[a-zA-Z0-9]+)*)\\.([A-Za-z]\{2,\})$'\
+);\
+\
+\
+create domain payment_type as text\
+check \
+(\
+value = 'MasterCard' or value = 'Visa' or value = 'American Express' or value = 'cash' or value = 'Gift Card');\
+\
+create domain speed_type as text\
+check (value = 'Express' or value = 'Regular');\
+\
+create domain carrier_type as text\
+check(value = 'UPS' or value = 'Canada Post' or value = 'FedEx'\
+);\
+\
+\
+create domain category_type as text\
+check(VALUE = 'Ipad, Tablets and eReaders' OR\
+VALUE = 'Computers' OR\
+VALUE = 'TV and Video' OR\
+VALUE = 'Audio' OR\
+VALUE = 'Photo' OR\
+VALUE = 'Video' OR\
+VALUE = 'XBOX 360' OR\
+VALUE = 'PlayStation 3' OR\
+VALUE = 'Movies' OR\
+VALUE = 'TV Shows' OR\
+VALUE = 'Cell Phones' OR\
+VALUE = 'Home Phones' OR\
+VALUE = 'iPod and MP3 Players' OR\
+VALUE = 'Headphones and iPod Speaker Docks' OR\
+VALUE = 'Guitar and Amps' OR\
+VALUE = 'Keyboards' OR\
+VALUE = 'GPS and Accessories' OR\
+VALUE = 'Car Audio and Video' OR\
+VALUE = 'Home and Living' OR\
+VALUE = 'Batteries and Gadgets');\
+\
+create domain store_department_size as text\
+check(\
+value = 'small' or\
+value = 'medium' or\
+value = 'large'\
+);\
+\
+CREATE TABLE Customer\
+(\
+cust_id INTEGER,\
+last_name VARCHAR(30),\
+first_name VARCHAR(20),\
+password VARCHAR(20), --encrypted\
+email email_address NOT NULL UNIQUE, --domain\
+PRIMARY KEY (cust_id)\
+);\
+\
+CREATE TABLE BillingInformation\
+(\
+cust_id INTEGER,\
+card_number VARCHAR(30),\
+type payment_type NOT NULL, --domain (visa, mastercard)\
+PRIMARY KEY (cust_id, card_number),\
+FOREIGN KEY (cust_id) REFERENCES Customer (cust_id) ON DELETE CASCADE		\
+);\
+\
+create table Address\
+(\
+address_id INTEGER,\
+address varchar(50),\
+-- took out address_2 since we don't need it. DOCUMENT IT!!! \
+city varchar(20),\
+phone varchar(20),\
+postal_code varchar(7), \
+primary key (address_id)\
+);\
+\
+create table BillingAddress\
+(\
+address_id INTEGER,\
+cust_id INTEGER,\
+primary key (address_id, cust_id),\
+FOREIGN KEY (cust_id) REFERENCES customer (cust_id) ON DELETE CASCADE,\
+FOREIGN KEY (address_id) REFERENCES Address (address_id) ON DELETE CASCADE\
+);\
+\
+create table ShippingAddress\
+(\
+address_id INTEGER,\
+cust_id INTEGER,\
+PRIMARY KEY (address_id, cust_id),\
+FOREIGN KEY (address_id) REFERENCES Address (address_id) ON DELETE CASCADE,\
+FOREIGN KEY (cust_id) REFERENCES customer (cust_id) ON DELETE CASCADE\
+);\
+\
+create table ShipTo\
+(\
+cust_id INTEGER,\
+address_id INTEGER,\
+date_ordered DATE,\
+date_shipped DATE,\
+shipping_cost NUMERIC(6,2),\
+speed speed_type, --domain\
+carrier carrier_type,--domain\
+PRIMARY KEY (cust_id, address_id),\
+FOREIGN KEY (cust_id) REFERENCES Customer (cust_id) ON DELETE RESTRICT ON UPDATE RESTRICT,\
+FOREIGN KEY (address_id) REFERENCES Address (address_id) ON DELETE RESTRICT ON UPDATE RESTRICT\
+);\
+\
+CREATE TABLE Department\
+(\
+dept_id INTEGER,\
+name VARCHAR(100),\
+description VARCHAR(400),\
+primary key (dept_id)\
+);\
+\
+CREATE TABLE Product\
+(\
+sku NUMERIC (11),\
+dept_id INTEGER,\
+name VARCHAR(200),\
+description VARCHAR(1000),\
+sale_price NUMERIC(8,2),\
+category category_type, --domain\
+PRIMARY KEY (sku),\
+FOREIGN KEY (dept_id) REFERENCES Department (dept_id) ON DELETE RESTRICT\
+);\
+\
+create table Cashier\
+(\
+address_id INTEGER,\
+cash_id INTEGER,\
+last_name VARCHAR(30),\
+first_name VARCHAR(20),\
+sin INTEGER NOT NULL,\
+PRIMARY KEY (cash_id),\
+FOREIGN KEY (address_id) REFERENCES Address (address_id) ON DELETE RESTRICT\
+);\
+\
+create table Store\
+(\
+store_id INTEGER,\
+name varchar(40),\
+address_id INTEGER, --has an "address", so no need for city\
+opened date,\
+PRIMARY KEY (store_id),\
+FOREIGN KEY (address_id) REFERENCES Address (address_id) ON DELETE RESTRICT\
+);\
+\
+create table Invoice\
+(\
+invoice_number INTEGER, \
+cust_id INTEGER, --cust_id = 0 for when bought in store\
+cash_id INTEGER,\
+store_id INTEGER,\
+--sku NUMERIC(11), -- we dont need this\
+time TIMESTAMP,\
+price NUMERIC(8,2),\
+type payment_type NOT NULL,\
+PRIMARY KEY (invoice_number),\
+FOREIGN KEY (cust_id) REFERENCES Customer (cust_id) ON DELETE RESTRICT,\
+FOREIGN KEY (cash_id) REFERENCES Cashier (cash_id) ON DELETE RESTRICT,\
+FOREIGN KEY (store_id) REFERENCES Store (store_id) ON DELETE RESTRICT\
+);\
+\
+create table Basket\
+(\
+invoice_number INTEGER,\
+sku NUMERIC(11),\
+quantity INTEGER,\
+primary key (invoice_number, sku),\
+FOREIGN KEY (invoice_number) REFERENCES Invoice (invoice_number) ON DELETE RESTRICT\
+);\
+\
+create table StoreDepartment\
+(\
+store_id INTEGER,\
+dept_id INTEGER,\
+size store_department_size, --domain of small, medium, large?\
+primary key (store_id, dept_id),\
+FOREIGN KEY (store_id) REFERENCES Store (store_id) ON DELETE RESTRICT,\
+FOREIGN KEY (dept_id) REFERENCES Department (dept_id) ON DELETE RESTRICT\
+);\
+\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 \CocoaLigature1 create table Image \
+(\
+name varchar(20) not null,\
+image OID not null \
+);\CocoaLigature0 \
+}

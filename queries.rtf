@@ -1,0 +1,280 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1138\cocoasubrtf320
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fnil\fcharset0 HelveticaNeue;}
+{\colortbl;\red255\green255\blue255;}
+\margl1440\margr1440\vieww28520\viewh16520\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+
+\f0\fs28 \cf0 --a\
+\
+--The product name can be any of the product names that we defined for example " FIFA 12"\
+\
+select *\
+from product p\
+where p.name =  '  '\
+\
+--end of a\
+\
+--b\
+select p.*, temp.mtime\
+from product p, \
+(select b.sku as id, max(i.time) as mtime\
+from invoice i, basket b\
+where i.invoice_number = b.invoice_number\
+and b.sku in\
+(select p.sku\
+from product p\
+where p.category = 'XBOX 360'\
+)\
+group by b.sku) as temp\
+where p.sku = temp.id\
+\
+--end of b\
+\
+--c\
+
+\f1 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\tx7280\tx7840\tx8400\tx8960\tx9520\tx10080\tx10640\tx11200\tx11760\tx12320\tx12880\tx13440\tx14000\tx14560\tx15120\tx15680\tx16240\tx16800\tx17360\tx17920\tx18480\tx19040\tx19600\tx20160\tx20720\tx21280\tx21840\tx22400\tx22960\tx23520\tx24080\tx24640\tx25200\tx25760\tx26320\tx26880\tx27440\tx28000\tx28560\tx29120\tx29680\tx30240\tx30800\tx31360\tx31920\tx32480\tx33040\tx33600\tx34160\tx34720\tx35280\tx35840\tx36400\tx36960\tx37520\tx38080\tx38640\tx39200\tx39760\tx40320\tx40880\tx41440\tx42000\tx42560\tx43120\tx43680\tx44240\tx44800\tx45360\tx45920\tx46480\tx47040\tx47600\tx48160\tx48720\tx49280\tx49840\tx50400\tx50960\tx51520\tx52080\tx52640\tx53200\tx53760\tx54320\tx54880\tx55440\tx56000\pardirnatural
+\cf0 \CocoaLigature0 select c1.first_name, c1.last_name, bi.card_number, bi.type\
+from customer c1, billinginformation bi\
+WHERE c1.cust_id = bi.cust_id\
+and c1.last_name = 'Asghari'\
+ORDER BY c1.cust_id ASC\
+\
+--end of c
+\f0 \CocoaLigature1 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 \
+-- d\
+\
+select c.last_name, c.first_name, c.email, temp.quantity\
+from customer c, \
+(select i.cust_id as id, sum(b.quantity) as quantity\
+from customer c, invoice i, basket b, product p\
+where i.cust_id = c.cust_id\
+and i.store_id = 1\
+and p.name = 'Apple MacBook Air 11.6" Intel Core i5 128 GB Laptop - English'\
+and b.invoice_number = i.invoice_number\
+and p.sku = b.sku\
+group by i.cust_id\
+having sum(b.quantity) >= all (select  sum(b1.quantity)\
+				from customer c1, invoice i1, basket b1, product p1\
+				where i1.cust_id = c1.cust_id\
+				and i1.store_id = 1\
+				and p1.name = 'Apple MacBook Air 11.6" Intel Core i5 128 GB Laptop - English'\
+				and b1.invoice_number = i1.invoice_number\
+				and p1.sku = b1.sku\
+				group by i1.cust_id)\
+order by i.cust_id) as temp\
+where c.cust_id = temp.id\
+\
+-- end of d\
+\
+-- e\
+\
+-- The department name can vary. For example it can be "Gaming" or any of the other 10 departments \
+\
+select count(p.name) as c, dp.name as n\
+from product p, department dp\
+where dp.name = ' ' -- comment. if not all then this is cut off\
+and dp.dept_id = p.dept_id\
+group by dp.name;\
+\
+-- end of e \
+\
+-- f\
+\
+select p1.name, p1.sale_price, temp.quantity\
+from product p1, basket b10,\
+(select b1.sku as id,sum(b1.quantity) as quantity\
+from basket b1, invoice i\
+where b1.quantity < 0\
+and i.store_id = 5\
+and i.invoice_number = b1.invoice_number \
+and b1.sku in ( \
+select p.sku\
+from department d, product p\
+where d.dept_id = p.dept_id\
+and d.name = 'Gaming')\
+group by b1.sku\
+having sum(b1.quantity) <= ALL\
+(\
+select sum(b5.quantity)\
+from basket b5, invoice i5\
+where b5.quantity < 0\
+and i5.store_id = 5\
+and i5.invoice_number = b5.invoice_number \
+and b5.sku in ( \
+select p6.sku\
+from department d6, product p6\
+where d6.dept_id = p6.dept_id\
+and d6.name = 'Gaming')\
+group by b5.sku\
+)\
+) as temp\
+where p1.sku = temp.id\
+and b10.quantity < 0\
+and b10.sku = p1.sku\
+\
+-- end of f\
+\
+--g\
+\
+select  *\
+from customer c\
+where c.cust_id in \
+(\
+select i.cust_id \
+from test_project.invoice i\
+where i.price > = $min \
+and i.price <= $max\
+\
+--end of g \
+\
+\
+--h\
+\
+select  *\
+from customer c\
+where c.cust_id not in \
+(\
+select i.cust_id \
+from test_project.invoice i\
+where i.price > = $min \
+and i.price <= $max\
+\
+-- end of h\
+\
+\
+\
+
+\f1 -- i\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\tx7280\tx7840\tx8400\tx8960\tx9520\tx10080\tx10640\tx11200\tx11760\tx12320\tx12880\tx13440\tx14000\tx14560\tx15120\tx15680\tx16240\tx16800\tx17360\tx17920\tx18480\tx19040\tx19600\tx20160\tx20720\tx21280\tx21840\tx22400\tx22960\tx23520\tx24080\tx24640\tx25200\tx25760\tx26320\tx26880\tx27440\tx28000\tx28560\tx29120\tx29680\tx30240\tx30800\tx31360\tx31920\tx32480\tx33040\tx33600\tx34160\tx34720\tx35280\tx35840\tx36400\tx36960\tx37520\tx38080\tx38640\tx39200\tx39760\tx40320\tx40880\tx41440\tx42000\tx42560\tx43120\tx43680\tx44240\tx44800\tx45360\tx45920\tx46480\tx47040\tx47600\tx48160\tx48720\tx49280\tx49840\tx50400\tx50960\tx51520\tx52080\tx52640\tx53200\tx53760\tx54320\tx54880\tx55440\tx56000\pardirnatural
+\cf0 \CocoaLigature0 select p1.name, sum(b1.quantity)\
+                        from product p1, basket b1,  department d1, invoice i1\
+                        where p1.sku = b1.sku\
+                        and b1.invoice_number = i1.invoice_number\
+			 and i1.store_id = 1\
+			 and p1.dept_id = d1.dept_id\
+			 and d1.name = 'Computers and Software' \
+                        group by p1.name \
+                        having sum(b1.quantity) >= All(\
+                                                        select sum(b.quantity)\
+                                                        from product p, basket b, department d, invoice i\
+                                                        where p.sku = b.sku\
+                                                        and b.invoice_number = i.invoice_number\
+                                                        and i.store_id = 1\
+                                                        and p.dept_id = d.dept_id\
+                                                        and d.name = 'Computers and Software'\
+                                                        group by p.sku\
+                                                        )
+\f0 \CocoaLigature1 \
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural
+\cf0 -- end of i\
+\
+-- j)\
+\
+select p1.name, p1.sale_price\
+from product p1, department d\
+where p1.sku not in (\
+		    select b2.sku \
+		    from basket b2, invoice i, department d\
+		    where b2.invoice_number = i.invoice_number\
+		    and i.store_id = 5)\
+and p1.dept_id = d.dept_id\
+and d.name = 'Gaming'\
+group by p1.name, p1.sale_price\
+order by p1.name Asc, p1.sale_price\
+\
+-- end of j\
+\
+-- k\
+\
+--comment this and write a sentence\
+\
+\
+select distinct p.name, p.sale_price\
+                        from product p, invoice i, basket b ,department d \
+                        where p.sku = b.sku\
+                        and i.invoice_number = b.invoice_number\
+                        and (i.type = 'cash')\
+                        and i.store_id = 4\
+                        and p.dept_id = d.dept_id\
+                        and d.name = 'Computers and Software'\
+                        order by p.name Asc, p.sale_price\
+\
+--end of k\
+\
+--L\
+\
+select * \
+from customer c\
+where c.cust_id in\
+(\
+select bi.cust_id\
+from billinginformation bi\
+group by bi.cust_id\
+having count (*) = $billing\
+)\
+\
+--end of L\
+\
+--m\
+\
+select c.last_name, c_first_name \
+from cashier c\
+where c.cash_id not in\
+(\
+select i.cash_id \
+from invoice i \
+where i.price < 0\
+group by i.cash_id\
+)\
+order by c.last_name ASC\
+\
+--end of m\
+\
+\
+-- n\
+select s1.name, count(*)\
+from store s1, invoice i1\
+where s1.store_id = i1.store_id\
+group by s1.name\
+having count(*) >= All (\
+select count (*)\
+from  store s, invoice i\
+where s.store_id = i.store_id\
+group by s.store_id \
+)\
+-- end of n\
+\
+\
+\
+-- o\
+select s.name, sum (i1.price)\
+from invoice i1, store s\
+where i1.store_id = s.store_id\
+group by s.name\
+having sum (i1.price) >= all(select sum (i.price)\
+from invoice i\
+group by i.store_id\
+order by i.store_id) \
+--end of o\
+\
+-- the following is extra queries:\
+-- query for price in invoice table\
+\
+select i.invoice_number, sum(temp.x)\
+from invoice i, (select i1.invoice_number as inv, p.sale_price * b.quantity as x\
+		from invoice i1, product p, basket b\
+		where i1.invoice_number = b.invoice_number\
+		and p.sku = b.sku) as temp\
+where i.invoice_number = temp.inv\
+group by i.invoice_number\
+order by i.invoice_number\
+\
+SELECT i.cust_id\
+from invoice i\
+group by i.cust_id\
+having count(*) >= 2\
+--end of extra queries\
+}
